@@ -1,22 +1,45 @@
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-
-    return (
-        <div className="search-bar">
-            <input
-                type="text"
-                placeholder="Search products..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-            />
-            <button>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M21 21L16.65 16.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-            </button>
-        </div>
-    );
+  const [query, setQuery] = useState("");
+  const [isExpanded, setIsExpanded] = useState(false);
+  const navigate = useNavigate();
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/search?q=${encodeURIComponent(query)}`);
+    }
+  };
+  // Auto-collapse search on mobile when query is empty
+  useEffect(() => {
+    if (!query && window.innerWidth < 768) {
+      setIsExpanded(false);
+    }
+  }, [query]);
+  return (
+    <form
+      className={`search-bar ${isExpanded ? "expanded" : ""}`}
+      onSubmit={handleSearch}
+    >
+      {isExpanded && (
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          autoFocus
+          className="search-input"
+        />
+      )}
+      <button
+        type={isExpanded ? "submit" : "button"}
+        className="search-button"
+        onClick={() => !isExpanded && setIsExpanded(true)}
+        aria-label={isExpanded ? "Submit search" : "Open search"}
+      >
+        Search
+      </button>
+    </form>
+  );
 };
