@@ -1,11 +1,65 @@
+/* 1. CSS Variables for Consistency */
+:root {
+    --max-width: 1200px;
+    /* Maximum content width */
+    --padding: 16px;
+    /* Base padding for mobile */
+    --gap: 20px;
+    /* Standard gap between elements */
+    --border-radius: 8px
+}
+
 /* Base Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    width: 1200px;
-    margin: 0 auto;
+    min-width: 320px;
+    /* Prevents horizontal scrollbars */
+    line-height: 1.5;
+    /* Better text readability */
 }
+
+#root {
+    display: flex;
+    flex-direction: column;
+    /* Stacks header, main, footer */
+    min-height: 100vh;
+    /* Full viewport height */
+}
+
+/* Responsive Container Pattern */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    /* Doesn't exceed 1200px */
+    margin: 0 auto;
+    /* Center horizontally */
+    padding: 0 var(--padding);
+    /* Responsive padding */
+    box-sizing: border-box;
+    /* Includes padding in width */
+}
+
+/*Media Query Breakpoints */
+@media (min-width: 600px) {
+
+    /* Tablet styles (600px+) */
+    :root {
+        --padding: 24px;
+        /* Larger padding */
+    }
+}
+
+@media (min-width: 1025px) {
+
+    /* Desktop styles (900px+) */
+    :root {
+        --padding: 32px;
+        --gap: 30px;
+    }
+}
+
 
 /* Navbar */
 .navbar {
@@ -256,13 +310,15 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
     padding: 5px 10px;
     margin-right: 5px;
 }
@@ -273,7 +329,8 @@ th, td {
     border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
-    width: 280px; /* Fixed width for non-responsive design */
+    width: 280px;
+    /* Fixed width for non-responsive design */
     background: white;
 }
 
