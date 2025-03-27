@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+// TODO: Make this page responsive. 
+
 export const Admin = () => {
     const [products, setProducts] = useState([
         { id: 1, title: 'Wireless Headphones', price: 199.99, stock: 15 },
@@ -27,7 +29,7 @@ export const Admin = () => {
 
     return (
         <div className="admin-page">
-            <h1>Admin Dashboard</h1>
+            <h1 id = "admin-title">Admin Dashboard</h1>
 
             <div className="admin-container">
                 <div className="product-list">
