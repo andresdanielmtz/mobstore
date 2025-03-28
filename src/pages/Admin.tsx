@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-// TODO: Make this page responsive. 
-
 export const Admin = () => {
     const [products, setProducts] = useState([
         { id: 1, title: 'Wireless Headphones', price: 199.99, stock: 15 },
