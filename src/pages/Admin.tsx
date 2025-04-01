@@ -1,91 +1,42 @@
 import { useState } from 'react';
+import { ProductForm } from '../components/ProductForm';
+import { ProductTable } from '../components/ProductTable';
+import { useProducts } from '../context/AdminContext';
 
 export const Admin = () => {
-    const [products, setProducts] = useState([
-        { id: 1, title: 'Wireless Headphones', price: 199.99, stock: 15 },
-        { id: 2, title: 'Phone Case', price: 29.99, stock: 42 },
-        { id: 3, title: 'USB Cable', price: 9.99, stock: 87 }
-    ]);
-
-    const [newProduct, setNewProduct] = useState({
-        title: '',
-        price: '',
-        stock: ''
-    });
-
-    const handleAddProduct = (e: React.FormEvent) => {
-        e.preventDefault();
-        const product = {
-            id: products.length + 1,
-            title: newProduct.title,
-            price: parseFloat(newProduct.price),
-            stock: parseInt(newProduct.stock)
-        };
-        setProducts([...products, product]);
-        setNewProduct({ title: '', price: '', stock: '' });
-    };
+    const { products, addProduct, updateProduct, deleteProduct } = useProducts();
+    const [editingProduct, setEditingProduct] = useState(null);
 
     return (
         <div className="admin-page">
-            <h1 id = "admin-title">Admin Dashboard</h1>
+            <div className="container">
+                <h1>Admin Dashboard</h1>
 
-            <div className="admin-container">
-                <div className="product-list">
-                    <h2>Current Products</h2>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Stock</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {products.map(product => (
-                            <tr key={product.id}>
-                                <td>{product.id}</td>
-                                <td>{product.title}</td>
-                                <td>${product.price.toFixed(2)}</td>
-                                <td>{product.stock}</td>
-                                <td>
-                                    <button className="edit-btn">Edit</button>
-                                    <button className="delete-btn">Delete</button>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </div>
+                <div className="admin-layout">
+                    <div className="admin-form">
+                        <h2>{editingProduct ? 'Edit Product' : 'Add New Product'}</h2>
+                        <ProductForm
+                            product={editingProduct}
+                            onSubmit={(product) => {
+                                if (editingProduct) {
+                                    updateProduct(product);
+                                } else {
+                                    addProduct(product);
+                                }
+                                setEditingProduct(null);
+                            }}
+                            onCancel={() => setEditingProduct(null)}
+                        />
+                    </div>
 
-                <div className="add-product">
-                    <h2>Add New Product</h2>
-                    <form onSubmit={handleAddProduct}>
-                        <input
-                            type="text"
-                            placeholder="Product Name"
-                            value={newProduct.title}
-                            onChange={(e) => setNewProduct({...newProduct, title: e.target.value})}
-                            required
+                    <div className="admin-table">
+                        <h2>Product Inventory</h2>
+                        <ProductTable
+                            products={products}
+                            onEdit={setEditingProduct}
+                            onDelete={deleteProduct}
                         />
-                        <input
-                            type="number"
-                            placeholder="Price"
-                            value={newProduct.price}
-                            onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-                            step="0.01"
-                            required
-                        />
-                        <input
-                            type="number"
-                            placeholder="Stock Quantity"
-                            value={newProduct.stock}
-                            onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
-                            required
-                        />
-                        <button type="submit">Add Product</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

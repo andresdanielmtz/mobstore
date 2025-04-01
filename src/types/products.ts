@@ -1,10 +1,24 @@
 // src/types/products.ts
+
 export interface Product {
     id: number;
     title: string;
     price: number;
-    rating: number;
-    image: string;
+    description: string;
     category: string;
-    // Add other shared fields here
+    image: string;
+    stock: number;
+};
+
+export interface AdminContextType {
+    products: Product[];
+    addProduct: (product: Omit<Product, 'id'>) => void;
+    updateProduct: (product: Product) => void;
+    deleteProduct: (id: number) => void;
+};
+
+export interface ProductsResponse {
+    data: Product[];
+    totalPages: number;
+    currentPage: number;
 }
