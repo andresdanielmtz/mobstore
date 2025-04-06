@@ -1,6 +1,9 @@
 // src/services/api.ts
 import {Product, ProductsResponse} from '../types/products';
-import {getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc} from "firebase/firestore"
+import {
+    getFirestore, collection, getDocs, addDoc, updateDoc,
+    deleteDoc, doc, getDoc
+} from "firebase/firestore";
 import {initializeApp} from "firebase/app";
 
 const firebaseConfig = {
@@ -119,40 +122,26 @@ const products = [
     } as Product
 ];
 
-// Generate 100 dummy products for simulation
-const generateMockProducts = (): Product[] => {
-    const categories = ['Electronics', 'Clothing', 'Home', 'Beauty', 'Sports'];
-    const brands = ['Apple', 'Samsung', 'Nike', 'Sony', 'Adidas', 'Dell', 'LG'];
-
-    return Array.from({length: 100}, (_, i) => ({
-        id: i + 1,
-        title: `Product ${i + 1}`,
-        price: parseFloat((Math.random() * 500 + 10).toFixed(2)),
-        rating: Math.floor(Math.random() * 3) + 2, // 2-5 stars
-        image: `https://picsum.photos/300/300?random=${i}`,
-        category: categories[Math.floor(Math.random() * categories.length)],
-        brand: brands[Math.floor(Math.random() * brands.length)],
-        description: `This is a detailed description for Product ${i + 1}. It includes all relevant features and specifications.`,
-        stock: Math.floor(Math.random() * 100)
-    }));
-};
-
-export const getProducts = async (source: string): Promise<Product[]> => {
+export const initializeProducts = async () => {
     try {
         const productsCollection = collection(db, "products");
         const snapshot = await getDocs(productsCollection);
-        if (snapshot.size == 0 && source == 'home') {
-            try {
-                for (const product of products) {
-                    await addDoc(collection(db, "products"), product);
-                    console.log(`Added: ${product.title}`);
-                }
-                console.log("All products added successfully.");
-                return products;
-            } catch (error) {
-                console.error("Error adding products: ", error);
+        if (snapshot.size === 0) {
+            for (const product of products) {
+                await addDoc(productsCollection, product);
+                console.log(`Added: ${product.title}`);
             }
+            console.log("All products added successfully.");
         }
+    } catch (error) {
+        console.error("Error initializing products: ", error);
+    }
+};
+
+export const getProducts = async (): Promise<Product[]> => {
+    try {
+        const productsCollection = collection(db, "products");
+        const snapshot = await getDocs(productsCollection);
         return snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data()
@@ -161,7 +150,7 @@ export const getProducts = async (source: string): Promise<Product[]> => {
         console.error("Error fetching products:", error);
         throw error;
     }
-}
+};
 
 let allProducts: Product[];
 
@@ -177,7 +166,7 @@ export const fetchProducts = async (params: {
     /*// Simulate network delay
     await new Promise(resolve => setTimeout(resolve, 300));*/
 // Filter products by category if specified
-    allProducts = await getProducts(params.source);
+    allProducts = await getProducts();
     let filteredProducts = [...allProducts];
     if (params.category) {
         filteredProducts = filteredProducts.filter(
@@ -207,7 +196,16 @@ export const fetchProducts = async (params: {
 };
 
 // Utility function for single product fetch
-export const fetchProductById = async (id: number): Promise<Product | undefined> => {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    return allProducts.find(p => p.id === id);
+export const fetchProductById = async (id: string): Promise<Product |
+    undefined> => {
+    const productRef = doc(db, "products", id);
+    const productSnap = await getDoc(productRef);
+    if (productSnap.exists()) {
+        return {
+            id: productSnap.id,
+            ...productSnap.data()
+        } as Product;
+    } else {
+        return undefined;
+    }
 };
