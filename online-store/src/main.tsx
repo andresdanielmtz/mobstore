@@ -6,13 +6,12 @@ import {CartProvider} from "./context/CartContext.tsx";
 import {OrderProvider} from "./context/OrderContext.tsx";
 import {AdminProvider} from "./context/AdminContext.tsx";
 
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
         <CartProvider>
             <OrderProvider>
                 <AdminProvider>
-                    <App />
+                    <App/>
                 </AdminProvider>
             </OrderProvider>
         </CartProvider>

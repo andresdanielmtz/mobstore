@@ -3,12 +3,14 @@
 export interface Product {
     id: number;
     title: string;
-    price: number;
     description: string;
+    price: number;
     category: string;
     image: string;
     stock: number;
-};
+    rating?: number;
+    createdAt?: Date;
+}
 
 export interface AdminContextType {
     products: Product[];

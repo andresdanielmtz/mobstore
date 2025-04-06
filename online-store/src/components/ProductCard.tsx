@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom';
-import { RatingStars } from './RatingStars';
+import {Link} from 'react-router-dom';
+import {RatingStars} from './RatingStars';
 import {Product} from "../types/products.ts";
 
 
 type ProductCardProps = {
-        product: Product;
+    product: Product;
 };
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({product}: ProductCardProps) => {
     return (
         <div className="product-card">
             <Link to={`/product/${product.id}`} className="product-image-link">
@@ -29,13 +29,19 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 </h3>
 
                 <div className="product-footer">
-                    <RatingStars rating={product.rating} />
                     <div className="price-container">
-                        <span className="product-price">${product.price.toFixed(2)}</span>
-                        <button className="add-to-cart" aria-label={`Add ${product.title} to cart`}>
-                            +
-                        </button>
+<span className="product-
+price">${product.price.toFixed(2)}</span>
                     </div>
+                </div>
+                <div className="product-footer">
+                    <RatingStars rating={product.rating as number}/>
+                </div>
+                <div className="product-footer">
+                    <button className="add-to-cart" aria-label={`Add ${product.title}
+to cart`}>
+                        Add to Cart
+                    </button>
                 </div>
             </div>
         </div>

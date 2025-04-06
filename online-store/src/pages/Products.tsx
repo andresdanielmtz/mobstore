@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { ProductCard } from '../components/ProductCard';
-import { SearchBar } from '../components/SearchBar';
-import { FilterSidebar } from '../components/FilterSidebar';
-import { Pagination } from '../components/Pagination';
-import { Product } from '../types/products';
-import { fetchProducts } from '../services/api';
+import {useState, useEffect} from 'react';
+import {useSearchParams} from 'react-router-dom';
+import {ProductCard} from '../components/ProductCard';
+import {SearchBar} from '../components/SearchBar';
+import {FilterSidebar} from '../components/FilterSidebar';
+import {Pagination} from '../components/Pagination';
+import {Product} from '../types/products';
+import {fetchProducts} from '../services/api';
 
 export const Products = () => {
     const [searchParams] = useSearchParams();
@@ -25,10 +25,11 @@ export const Products = () => {
         const loadProducts = async () => {
             try {
                 setLoading(true);
-                const { data, totalPages } = await fetchProducts({
+                const {data, totalPages} = await fetchProducts({
                     page,
                     category,
-                    query: searchQuery
+                    query: searchQuery,
+                    source: 'products'
                 });
                 setProducts(data);
                 setTotalPages(totalPages);
@@ -55,7 +56,7 @@ export const Products = () => {
                 </h1>
 
                 <div className="products-header">
-                    <SearchBar initialValue={searchQuery} />
+                    <SearchBar initialValue={searchQuery}/>
                     <button
                         className="mobile-filter-button"
                         onClick={() => setShowMobileFilters(!showMobileFilters)}

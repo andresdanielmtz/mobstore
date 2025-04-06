@@ -1,11 +1,12 @@
-import { CartItem } from '../components/CartItem';
+import {CartItem} from '../components/CartItem';
 
 const mockCartItems = [
-    { id: 1, title: 'Wireless Headphones', price: 199.99, quantity: 1 },
-    { id: 2, title: 'Phone Case', price: 29.99, quantity: 2 }
+    {id: 1, title: 'Wireless Headphones', price: 199.99, quantity: 1},
+    {id: 2, title: 'Phone Case', price: 29.99, quantity: 2}
 ];
 
 export const Checkout = () => {
+
     return (
         <div className="checkout-page">
             <h1>Checkout</h1>
@@ -14,10 +15,10 @@ export const Checkout = () => {
                 <div className="shipping-form">
                     <h2>Shipping Information</h2>
                     <form>
-                        <input type="text" placeholder="Full Name" />
-                        <input type="text" placeholder="Address" />
-                        <input type="text" placeholder="City" />
-                        <input type="text" placeholder="ZIP Code" />
+                        <input type="text" placeholder="Full Name"/>
+                        <input type="text" placeholder="Address"/>
+                        <input type="text" placeholder="City"/>
+                        <input type="text" placeholder="ZIP Code"/>
                         <select>
                             <option>Select Country</option>
                             <option>United States</option>
