@@ -3,8 +3,8 @@ import {
   signInWithGoogle,
   signInWithEmail,
   registerWithEmail,
-} from "../services/api";
-import "../styles.css";
+} from "../services/authenticationServices";
+
 export const LoginModal = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useConfirmation } from "../hooks/useConfirmation";
-import { logout } from "../services/api.ts";
-import "../styles.css";
+import { logout } from "../services/authenticationServices.ts";
+
 export const LogoutButton = () => {
   const { confirm, Confirmation } = useConfirmation();
   const [isLoggingOut, setIsLoggingOut] = useState(false);

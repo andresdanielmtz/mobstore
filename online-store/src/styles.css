@@ -452,6 +452,19 @@ body {
   display: none;
 }
 
+.navbar-logo {
+  height: 20px; /* Adjust as needed */
+  margin-right: 7px;
+  vertical-align: middle;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
 /* Tablet+ */
 @media (min-width: 769px) {
   .hamburger {
@@ -1418,7 +1431,7 @@ body {
 .product-table th {
   background: var(--light-gray);
   font-weight: 500;
-  color: black
+  color: black;
 }
 
 .product-thumbnail {

@@ -1,132 +1,6 @@
-// src/services/api.ts
-import { Product, ProductsResponse } from "../types/products";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  // updateDoc,
-  // deleteDoc,
-  getDoc,
-  doc,
-  setDoc,
-} from "firebase/firestore";
-import {
-  getAuth,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  // User,
-} from "firebase/auth";
-import { initializeApp } from "firebase/app";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCV-4wVQn1Qvz7DwOkkqGXClVSmivZx86E",
-  authDomain: "e-store-a00227463.firebaseapp.com",
-  projectId: "e-store-a00227463",
-  storageBucket: "e-store-a00227463.firebasestorage.app",
-  messagingSenderId: "970567131118",
-  appId: "1:970567131118:web:628dedf8c3ecf33d57f8ff",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-
-export const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
-
-export const signInWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, googleProvider);
-    const user = result.user;
-    // Check if user exists in users collection
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    if (!userDoc.exists()) {
-      // Add new user with default role
-      await setDoc(doc(db, "users", user.uid), {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        role: "customer", // default role
-        createdAt: new Date(),
-      });
-    }
-    return user;
-  } catch (error) {
-    console.error("Error signing in with Google:", error);
-    throw error;
-  }
-};
-
-export const signInWithEmail = async (email: string, password: string) => {
-  try {
-    const result = await signInWithEmailAndPassword(auth, email, password);
-    return result.user;
-  } catch (error) {
-    console.error("Error signing in with email:", error);
-    throw error;
-  }
-};
-
-export const registerWithEmail = async (
-  email: string,
-  password: string,
-  displayName: string
-) => {
-  try {
-    const result = await createUserWithEmailAndPassword(auth, email, password);
-    const user = result.user;
-    // Add new user with default role
-    await setDoc(doc(db, "users", user.uid), {
-      uid: user.uid,
-      email: user.email,
-      role: "customer", // default role
-      displayName: displayName,
-      createdAt: new Date(),
-    });
-    return user;
-  } catch (error) {
-    console.error("Error registering with email:", error);
-    throw error;
-  }
-};
-
-export const logout = async () => {
-  try {
-    await signOut(auth);
-  } catch (error) {
-    console.error("Error signing out:", error);
-    throw error;
-  }
-};
-
-export const getUserRole = async (userId: string): Promise<string> => {
-  try {
-    const userDoc = await getDoc(doc(db, "users", userId));
-    if (userDoc.exists()) {
-      return userDoc.data().role || "customer";
-    }
-    return "customer"; // default role
-  } catch (error) {
-    console.error("Error getting user role:", error);
-    return "customer";
-  }
-};
-export const getUserDisplayName = async (userId: string): Promise<string> => {
-  try {
-    const userDoc = await getDoc(doc(db, "users", userId));
-    if (userDoc.exists()) {
-      return userDoc.data().displayName || "";
-    }
-    return ""; // default role
-  } catch (error) {
-    console.error("Error getting user displayName:", error);
-    return "";
-  }
-};
+import { Product, ProductsResponse } from "../types/products.ts";
+import { addDoc, collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { db } from "./firebaseConfig.ts";
 
 const products = [
   {
@@ -239,7 +113,7 @@ const products = [
     createdAt: new Date(),
   } as Product,
 ];
-
+// Get all products
 export const initializeProducts = async () => {
   try {
     const productsCollection = collection(db, "products");
@@ -255,7 +129,6 @@ export const initializeProducts = async () => {
     console.error("Error initializing products: ", error);
   }
 };
-
 export const getProducts = async (): Promise<Product[]> => {
   try {
     const productsCollection = collection(db, "products");
@@ -269,9 +142,8 @@ export const getProducts = async (): Promise<Product[]> => {
     throw error;
   }
 };
-
+//const allProducts = generateMockProducts();
 let allProducts: Product[];
-
 export const fetchProducts = async (params: {
   page: number;
   perPage?: number;
@@ -313,12 +185,11 @@ export const fetchProducts = async (params: {
     currentPage: params.page,
   };
 };
-
 // Utility function for single product fetch
 export const fetchProductById = async (
   id: string
 ): Promise<Product | undefined> => {
-  const productRef = doc(db, "products", id);
+  const productRef = doc(db, "products", id as string);
   const productSnap = await getDoc(productRef);
   if (productSnap.exists()) {
     return {

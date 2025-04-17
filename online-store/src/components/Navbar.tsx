@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
+import logo from "../assets/e-shop.png";
 
 export const Navbar = () => {
   const { user, role, displayName } = useAuth();
@@ -14,7 +15,14 @@ export const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <div className="navbar-brand">
-          <Link to="/">E-Shop</Link>
+          <Link to="/">
+            <img
+              src={logo as string}
+              alt="E-Shop Logo"
+              className="navbar-logo"
+            />
+            <span>E-Shop</span>
+          </Link>
           {/* Hamburger button for mobile */}
           <button
             className="hamburger"
@@ -33,7 +41,12 @@ export const Navbar = () => {
             className="navbar-home"
             onClick={() => setIsMenuOpen(false)}
           >
-            E-Shop
+            <img
+              src={logo as string}
+              alt="E-Shop Logo"
+              className="navbar-logo"
+            />
+            <span>E-Shop</span>
           </Link>
           <Link to="/products" onClick={() => setIsMenuOpen(false)}>
             Products

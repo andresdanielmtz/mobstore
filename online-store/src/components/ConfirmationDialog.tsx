@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import "../styles.css";
 type ConfirmationDialogProps = {
   isOpen: boolean;
   title: string;

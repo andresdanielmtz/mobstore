@@ -1,7 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth, getUserDisplayName } from "../services/api";
-import { getUserRole } from "../services/api";
+import { auth } from "../services/firebaseConfig";
+import {
+  getUserRole,
+  getUserDisplayName,
+} from "../services/authenticationServices";
+
 interface AuthContextType {
   user: User | null;
   role: string;
