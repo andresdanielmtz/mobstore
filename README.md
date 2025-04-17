@@ -4,7 +4,7 @@
 ### Structure
 
 - **mobstore**: Main online store 
-- **online-store**: Responsive online store 
+- **online-store**: Responsive online store, also the one used from now on. 
 
 ### How to install and run 
 
