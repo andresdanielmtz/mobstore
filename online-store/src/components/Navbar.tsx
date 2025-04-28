@@ -5,9 +5,11 @@ import { useAuth } from "../context/AuthContext";
 import { LoginButton } from "./LoginButton";
 import { LogoutButton } from "./LogoutButton";
 import logo from "../assets/e-shop.png";
+import { useCart } from "../context/CartContext";
 
 export const Navbar = () => {
   const { user, role, displayName } = useAuth();
+  const { cartItemCount } = useCart();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false); //constant added to handle the menu toggle
 
@@ -51,8 +53,14 @@ export const Navbar = () => {
           <Link to="/products" onClick={() => setIsMenuOpen(false)}>
             Products
           </Link>
+          
           <Link to="/cart" onClick={() => setIsMenuOpen(false)}>
-            Cart <span className="cart-count">(0)</span>
+            🛒 Cart{" "}
+            {cartItemCount > 0 ? (
+              <span className="cart-count"> {cartItemCount}</span>
+            ) : (
+              ""
+            )}
           </Link>
           <Link to="/orders" onClick={() => setIsMenuOpen(false)}>
             Orders

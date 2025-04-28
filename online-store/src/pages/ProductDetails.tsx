@@ -4,8 +4,12 @@ import { Product } from "../types/products.ts";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchProductById } from "../services/productService.ts";
+import { AddToCartButton } from "../components/AddToCartButton.tsx";
+import { useAuth } from "../context/AuthContext.tsx";
 
 export const ProductDetails = () => {
+  const { user } = useAuth();
+
   // Hardcoded product data
   const { id } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
@@ -68,7 +72,7 @@ export const ProductDetails = () => {
           <div className="product-description">
             <p>{product.description}</p>
           </div>
-          <button className="add-to-cart">Add to Cart</button>
+          {user ? <AddToCartButton productId={product.id} /> : <div />}{" "}
         </div>
       </div>
     </div>

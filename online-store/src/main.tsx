@@ -7,19 +7,22 @@ import { OrderProvider } from "./context/OrderContext.tsx";
 import { AdminProvider } from "./context/AdminContext.tsx";
 import { initializeProducts } from "./services/productService.ts";
 import { AuthProvider } from "./context/AuthContext.tsx";
+import { ProductProvider } from "./context/ProductContext.tsx";
 
 await initializeProducts();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <CartProvider>
+      <ProductProvider>
         <OrderProvider>
           <AdminProvider>
-            <App />
+            <CartProvider>
+              <App />
+            </CartProvider>
           </AdminProvider>
         </OrderProvider>
-      </CartProvider>
+      </ProductProvider>
     </AuthProvider>
   </React.StrictMode>
 );
