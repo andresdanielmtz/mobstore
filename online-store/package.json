@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@firebase/firestore": "^4.7.10",
+    "@firebase/firestore": "^4.7.11",
+    "@paypal/react-paypal-js": "^8.8.3",
     "@types/react-router-dom": "^5.3.3",
     "firebase": "^11.6.0",
     "react": "^19.0.0",
@@ -19,7 +20,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
-    "@types/react": "^19.0.10",
+    "@types/react": "^19.1.2",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.21.0",

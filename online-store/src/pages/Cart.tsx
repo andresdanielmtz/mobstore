@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
-import { useCart } from '../context/CartContext';
-import { useProducts } from '../context/ProductContext';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext";
+import { useProducts } from "../context/ProductContext";
+import { Link } from "react-router-dom";
 import { CartItem } from "../types/cart.ts";
 import { Product } from "../types/products.ts";
+import { useNavigate } from "react-router-dom";
 
 export const Cart = () => {
   const { cart, loading, updateItemQuantity, removeFromCart, clearUserCart } =
@@ -13,6 +14,8 @@ export const Cart = () => {
     product: Product;
     cartItem: CartItem;
   }> | null>(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cart && products) {
@@ -128,7 +131,12 @@ export const Cart = () => {
             <span>Total</span>
             <span>${calculateTotal().toFixed(2)}</span>
           </div>
-          <button className="cart-checkout-btn">Proceed to Checkout</button>
+          <button
+            className="cart-checkout-btn"
+            onClick={() => navigate("/checkout")}
+          >
+            Proceed to Checkout
+          </button>
           <button onClick={handleClearCart} className="cart-clear-btn">
             Clear Cart
           </button>

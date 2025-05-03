@@ -10,6 +10,7 @@ export interface Product {
     stock: number;
     rating?: number;
     createdAt?: Date;
+    weight: number;
 }
 
 export interface AdminContextType {

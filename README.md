@@ -1,12 +1,13 @@
 # Mobstore
-## Mob + Online Store 
+
+## Mob + Online Store
 
 ### Structure
 
-- **mobstore**: Main online store 
-- **online-store**: Responsive online store, also the one used from now on. 
+- **mobstore**: Main online store
+- **online-store**: Responsive online store, also the one used from now on.
 
-### How to install and run 
+### How to install and run
 
 To install and run any of the repositories use the following command:
 
